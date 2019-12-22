@@ -5,8 +5,9 @@ namespace Sudoku {
 	//suffix L meand locked (not changeable)
 	//ONE is equal 0 because it eases next implementation
 	enum Point {
+		EMPTY = -1,
 		ONE = 0, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,
-		ONEL = 9, TWOL, THREEL, FOURL, FIVEL, SIXL, SEVENL, EIGHTL, NINEL, EMPTY = 18
+		ONEL = 9, TWOL, THREEL, FOURL, FIVEL, SIXL, SEVENL, EIGHTL, NINEL
 	};
 
 	inline bool isChangeable(Point p);
@@ -22,15 +23,17 @@ namespace Sudoku {
 		Board& operator=(Board&& board);
 
 		//elem access
+		/* 3*3 sqrmatrix with next indexing inside it:
+		   0 1 2
+		   3 4 5
+		   6 7 8
+		*/
+		Point& operator()(int sqrrow, int sqrcol, int sqrind);
 		Point& operator()(int row, int col);
 		Point& operator()(int ind);
 
 		//numbers don't conflict?
 		bool IsConsistent();
-
-		std::array<int, 9> rowIndexes(int row);
-		std::array<int, 9> colIndexes(int col);
-		std::array<int, 9> squareIndexes(int sqrNum);
 
 	private:
 		std::array<Point, 81> points;

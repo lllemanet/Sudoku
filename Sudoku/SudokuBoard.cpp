@@ -10,10 +10,12 @@ namespace Sudoku {
 		return p > 0 && p < 10;
 	}
 
-	Board::Board() {}
+	Board::Board() {
+		std::fill_n(points.begin(), 81, Point::EMPTY);
+	}
 
-	Board::Board(std::initializer_list<Point> points) {
-		if (points.size() < 10) {
+	Board::Board(std::initializer_list<Point> points) : points{ Point::EMPTY } {
+		if (points.size() < 81) {
 			for (unsigned int i = 0; i < points.size(); i++) {
 				this->points[i] = *(points.begin() + i);
 			}
@@ -42,10 +44,18 @@ namespace Sudoku {
 		return *this;
 	}
 
+	Point& Board::operator()(int sqrrow, int sqrcol, int sqrind) {
+		if (sqrrow < 0 || sqrrow > 3 ||
+				sqrcol < 0 || sqrcol > 3 ||
+				sqrind < 0 || sqrind > 8)
+			throw std::invalid_argument("sqrrow and sqrcol must be between 0 and 2; sqrind should be between 0 and 8");
+		return points[sqrrow * 27 + sqrcol * 3 + sqrind % 3 + (sqrind / 3) * 9];
+	}
+
 	Point& Board::operator()(int row, int col) {
 		if (row < 0 || row > 8 ||
-			col < 0 || col > 8)
-			throw std::invalid_argument("row and col should be between 0 and 2");
+				col < 0 || col > 8)
+			throw std::invalid_argument("row and col should be between 0 and 8");
 		return points[row * 9 + col];
 	}
 
@@ -71,7 +81,7 @@ namespace Sudoku {
 						return false;
 				}
 			}
-			std::fill_n(checkTable.begin, 9, 0);
+			std::fill_n(checkTable.begin(), 9, 0);
 		}
 
 		for (int col = 0; col < 9; col++) {
@@ -85,14 +95,14 @@ namespace Sudoku {
 						return false;
 				}
 			}
-			std::fill_n(checkTable.begin, 9, 0);
+			std::fill_n(checkTable.begin(), 9, 0);
 		}
 
 		//big row is three rows together: 1st 0..2, 2nd 3..5, 3rd 6..8 (same logic for bigcol)
-		for (int bigrow = 0; bigrow < 3; bigrow++) {
-			for (int bigcol = 0; bigcol < 3; bigcol++) {
-				for (int row = bigrow * 3; row < bigrow * 3 + 3; row++) {
-					for (int col = bigcol * 3; bigcol < bigcol * 3 + 3; col++) {
+		for (int sqrrow = 0; sqrrow < 3; sqrrow++) {
+			for (int sqrcol = 0; sqrcol < 3; sqrcol++) {
+				for (int row = sqrrow * 3; row < sqrrow * 3 + 3; row++) {
+					for (int col = sqrcol * 3; col < sqrcol * 3 + 3; col++) {
 						int val = operator()(row, col);
 						if (val == Point::EMPTY)
 							continue;
@@ -103,7 +113,7 @@ namespace Sudoku {
 						}
 					}
 				}
-				std::fill_n(checkTable.begin, 9, 0);
+				std::fill_n(checkTable.begin(), 9, 0);
 			}
 		}
 		return true;
