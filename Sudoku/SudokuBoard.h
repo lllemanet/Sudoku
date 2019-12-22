@@ -2,6 +2,8 @@
 #include <array>
 
 namespace Sudoku {
+	constexpr int numOfPoints = 81;
+
 	//suffix L meand locked (not changeable)
 	//ONE is equal 0 because it eases next implementation
 	enum Point {
@@ -32,10 +34,22 @@ namespace Sudoku {
 		Point& operator()(int row, int col);
 		Point& operator()(int ind);
 
+		Point operator()(int sqrrow, int sqrcol, int sqrind) const;
+		Point operator()(int row, int col) const ;
+		Point operator()(int ind) const;
+
 		//numbers don't conflict?
-		bool IsConsistent();
+		bool IsConsistent() const;
 
 	private:
 		std::array<Point, 81> points;
 	};
+
+
+	//Utilities
+	/*
+		Solves sudoku and returns referece for solved board
+		Returns empty board if there's no solution
+	*/
+	Board SolveSudoku(const Board& board);
 }

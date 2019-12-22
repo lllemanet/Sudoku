@@ -5,6 +5,8 @@
 #include "pch.h"
 #include "SudokuBoard.h"
 
+#define OUT
+
 namespace Sudoku {
 	inline bool isChangeable(Point p) {
 		return p > 0 && p < 10;
@@ -65,8 +67,29 @@ namespace Sudoku {
 		return points[ind];
 	}
 
+	Point Board::operator()(int sqrrow, int sqrcol, int sqrind) const {
+		if (sqrrow < 0 || sqrrow > 3 ||
+			sqrcol < 0 || sqrcol > 3 ||
+			sqrind < 0 || sqrind > 8)
+			throw std::invalid_argument("sqrrow and sqrcol must be between 0 and 2; sqrind should be between 0 and 8");
+		return points[sqrrow * 27 + sqrcol * 3 + sqrind % 3 + (sqrind / 3) * 9];
+	}
+
+	Point Board::operator()(int row, int col) const {
+		if (row < 0 || row > 8 ||
+			col < 0 || col > 8)
+			throw std::invalid_argument("row and col should be between 0 and 8");
+		return points[row * 9 + col];
+	}
+
+	Point Board::operator()(int ind) const{
+		if (ind < 0 || ind > 80)
+			throw std::invalid_argument("index for board should be non-negative and < 80");
+		return points[ind];
+	}
+
 	//check if there repeat in any row, col or 3*3 square
-	bool Board::IsConsistent() {
+	bool Board::IsConsistent() const {
 		std::array<int, 9> checkTable{}; //used for each row, col or 3*3 square to check if there coincidences
 
 		//check rows
@@ -117,5 +140,55 @@ namespace Sudoku {
 			}
 		}
 		return true;
+	}
+
+
+	/*Sudoku solver*/
+	inline int GetNextEmptyIndex(const Board& board, int curInd) {
+		for (; curInd < numOfPoints; curInd++) {
+			if (board(curInd) == Point::EMPTY)
+				return curInd;
+		}
+		return numOfPoints;
+	}
+
+	bool SolveSudokuHelper(OUT Board& resBoard, int curInd);
+
+	Board SolveSudoku(const Board& srcBoard) {
+		if (!srcBoard.IsConsistent())
+			return Board{};
+
+		Board resBoard{ srcBoard };
+		int curInd = GetNextEmptyIndex(resBoard, 0);
+		if (curInd == numOfPoints)
+			return resBoard;
+
+		if (SolveSudokuHelper(resBoard, curInd))
+			return resBoard;
+		else
+			return Board{}; //fix it
+	}
+
+	bool SolveSudokuHelper(OUT Board& resBoard, int curInd) {
+		if (curInd == numOfPoints)
+			return true;
+
+		for (int tryVal = 0; tryVal < 9; tryVal++) {
+			resBoard(curInd) = static_cast<Point>(tryVal); //trying this value
+
+			if (resBoard.IsConsistent()) {
+				if (SolveSudokuHelper(resBoard, curInd + 1)) {
+					return true;
+				}
+				else {
+					//empty all elements added after curInd
+					for (int i = curInd + 1; i < numOfPoints; i++) {
+						if (isChangeable(resBoard(i)))
+							resBoard(i) = Point::EMPTY;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
