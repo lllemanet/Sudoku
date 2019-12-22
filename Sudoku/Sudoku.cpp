@@ -1,7 +1,10 @@
 #include "pch.h"
+#include "SudokuBoard.h"
 #include <iostream>
+using namespace Sudoku;
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	
+	//SudokuBoard sb1{};
 }
