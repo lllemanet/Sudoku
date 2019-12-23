@@ -27,6 +27,7 @@ int main()
 	PrintBoard(game.GetCurBoard());
 	game.Redo();
 	PrintBoard(game.GetCurBoard());
+	std::cout << game.Redo();
 	//SudokuBoard sb1{};
 }
 

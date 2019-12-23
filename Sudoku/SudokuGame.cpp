@@ -18,13 +18,28 @@ namespace Sudoku {
 	}
 
 	bool Game::Undo() {
-		Move undoMove = undoManager.Undo();				//NTODO TODOhow to check default value if error
+		Move undoMove;
+
+		//shortcut solution
+		try {
+			undoMove = undoManager.Undo();
+		}
+		catch (invalid_operation) {
+			return false;
+		}
+
 		curBoard(undoMove.index) = undoMove.oldValue;
 		return true;
 	}
 
 	bool Game::Redo() {
-		Move redoMove = undoManager.Redo();
+		Move redoMove;
+		try {
+			redoMove = undoManager.Redo();
+		}
+		catch (invalid_operation) {
+			return false;
+		}
 		curBoard(redoMove.index) = redoMove.newValue;
 		return true;
 	}

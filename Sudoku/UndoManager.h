@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+class invalid_operation : std::exception {};
+
 /*
 	Act should be such that can be used for doing and undoing things.
 	UndoActManager only contains sequence of acts, it's responsible for their order and doesn't manipulate them directly. 
@@ -26,7 +28,7 @@ public:
 		}
 	}
 
-	//undo when there's no prev acts returns default TAct
+	//undo when there's no prev acts throws invalid_operation
 	TAct Undo() {
 		if (!isUndoState) {
 			isUndoState = true;
@@ -34,7 +36,7 @@ public:
 		}
 
 		if (curActsInd == -1)
-			return TAct{};
+			throw invalid_operation{};
 
 		return acts[curActsInd--];
 	}
@@ -42,14 +44,13 @@ public:
 	//redo if in undostate and there's possibility to redo (element in curActsInd + 1)
 	TAct Redo() {
 		if (!isUndoState || acts.size() == curActsInd + 1)
-			return TAct{};
+			throw invalid_operation{};
 
 		return acts[++curActsInd];
 	}
 
 	//bool IsPossibleRedo();
 	//bool IsPossibleUndo();
-
 private:
 	std::vector<TAct> acts;
 	int curActsInd;		//used only in undostate. index points to next undo act
