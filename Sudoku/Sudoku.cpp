@@ -1,10 +1,10 @@
 #include "pch.h"
+#include <iostream>
+#include <string>
 #include "SudokuBoard.h"
 #include "SudokuGame.h"
-#include <iostream>
+#include "GameTerminal.h"
 using namespace Sudoku;
-
-void PrintBoard(Board board);
 
 int main()
 {
@@ -20,23 +20,17 @@ int main()
 	Board sb3 = SolveSudoku(sb2);
 
 	Game game{ sb2 };
-	PrintBoard(game.GetCurBoard());
+	GameTerminal::PrintBoard(game.GetCurBoard());
 	game.MakeMove({ 0, Point::THREE, Point::ONE });
-	PrintBoard(game.GetCurBoard());
+	GameTerminal::PrintBoard(game.GetCurBoard());
 	game.Undo();
-	PrintBoard(game.GetCurBoard());
+	GameTerminal::PrintBoard(game.GetCurBoard());
 	game.Redo();
-	PrintBoard(game.GetCurBoard());
+	GameTerminal::PrintBoard(game.GetCurBoard());
 	std::cout << game.Redo();
-	//SudokuBoard sb1{};
-}
+	std::system("CLS");
 
-void PrintBoard(Board board) {
-	for (int r = 0; r < 9; r++) {
-		for (int c = 0; c < 9; c++) {
-			std::cout << "\t" << board(r, c);
-		}
-		std::cout << "\n";
-	}
-	std::cout << "\n";
+	GameTerminal gameTerminal{ game };
+	gameTerminal.Start();
+	//SudokuBoard sb1{};
 }

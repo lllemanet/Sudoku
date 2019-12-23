@@ -12,6 +12,11 @@ namespace Sudoku {
 			return false;
 
 		curBoard(move.index) = move.newValue;
+		if (!curBoard.IsConsistent()) {
+			curBoard(move.index) = move.oldValue;
+			return false;
+		}
+
 		undoManager.Do(move);
 
 		return true;
@@ -43,6 +48,15 @@ namespace Sudoku {
 		curBoard(redoMove.index) = redoMove.newValue;
 		return true;
 	}
+
+	bool Game::IsWon() {
+		for (int i = 0; i < numOfPoints; i++) {
+			if (curBoard(i) == Point::EMPTY)
+				return false;
+		}
+		return curBoard.IsConsistent();
+	}
+
 	const Board& Game::GetCurBoard() {
 		return curBoard;
 	}

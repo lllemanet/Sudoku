@@ -43,8 +43,13 @@ namespace Sudoku {
 		//numbers don't conflict?
 		bool IsConsistent() const;
 
-		static constexpr int GetIndex(int row, int col);
-		static constexpr int GetIndex(int sqrrow, int sqrcol, int sqrind);
+		static constexpr int GetIndex(int row, int col) {
+			return row * 9 + col;
+		}
+
+		static constexpr int GetIndex(int sqrrow, int sqrcol, int sqrind) {
+			return sqrrow * 27 + sqrcol * 3 + sqrind % 3 + (sqrind / 3) * 9;
+		}
 
 	private:
 		std::array<Point, 81> points;

@@ -139,14 +139,6 @@ namespace Sudoku {
 		return true;
 	}
 
-	constexpr int Board::GetIndex(int row, int col) {
-		return row * 9 + col;
-
-	}
-
-	constexpr int Board::GetIndex(int sqrrow, int sqrcol, int sqrind) {
-		return sqrrow * 27 + sqrcol * 3 + sqrind % 3 + (sqrind / 3) * 9;
-	}
 
 
 	/*Sudoku solver*/
