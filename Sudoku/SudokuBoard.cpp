@@ -16,7 +16,7 @@ namespace Sudoku {
 		std::fill_n(points.begin(), 81, Point::EMPTY);
 	}
 
-	Board::Board(std::initializer_list<Point> points) : points{ Point::EMPTY } {
+	Board::Board(std::initializer_list<Point> points) : Board()  {
 		if (points.size() < 81) {
 			for (unsigned int i = 0; i < points.size(); i++) {
 				this->points[i] = *(points.begin() + i);
@@ -46,6 +46,7 @@ namespace Sudoku {
 		return *this;
 	}
 
+	//access operators make checks (can harm performance) TODO fast access
 	Point& Board::operator()(int sqrrow, int sqrcol, int sqrind) {
 		if (sqrrow < 0 || sqrrow > 3 ||
 				sqrcol < 0 || sqrcol > 3 ||
@@ -177,7 +178,7 @@ namespace Sudoku {
 			resBoard(curInd) = static_cast<Point>(tryVal); //trying this value
 
 			if (resBoard.IsConsistent()) {
-				if (SolveSudokuHelper(resBoard, curInd + 1)) {
+				if (SolveSudokuHelper(resBoard, curInd + 1)) { //try next free
 					return true;
 				}
 				else {
