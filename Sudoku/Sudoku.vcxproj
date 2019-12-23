@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SudokuBoard.h" />
+    <ClInclude Include="SudokuGame.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -163,6 +164,7 @@
     </ClCompile>
     <ClCompile Include="Sudoku.cpp" />
     <ClCompile Include="SudokuBoard.cpp" />
+    <ClCompile Include="SudokuGame.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

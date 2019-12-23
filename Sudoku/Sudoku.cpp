@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "SudokuBoard.h"
+#include "SudokuGame.h"
 #include <iostream>
 using namespace Sudoku;
+
+void PrintBoard(Board board);
 
 int main()
 {
@@ -16,11 +19,18 @@ int main()
 	std::cout << sb2.IsConsistent();
 	Board sb3 = SolveSudoku(sb2);
 
+	Game game{ sb2 };
+	PrintBoard(game.GetCurBoard());
+	game.MakeMove({ 0, Point::THREE, Point::ONE });
+	PrintBoard(game.GetCurBoard());
+	//SudokuBoard sb1{};
+}
+
+void PrintBoard(Board board) {
 	for (int r = 0; r < 9; r++) {
 		for (int c = 0; c < 9; c++) {
-			std::cout << "\t" << sb3(r, c);
+			std::cout << "\t" << board(r, c);
 		}
 		std::cout << "\n";
 	}
-	//SudokuBoard sb1{};
 }

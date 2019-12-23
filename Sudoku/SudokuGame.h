@@ -12,21 +12,22 @@ namespace Sudoku {
 	class Game {
 	public:
 		Game(const Board& startBoard);
-		Game(const Game& game);
-		Game(Game&& game);
+		Game(const Game& game) = default;
+		Game(Game&& game) = default;
 
 		bool MakeMove(Move move);
-		bool Do();
+		bool Undo();
 		bool Redo();
-		bool isWon();
+		bool IsWon();
 
-		const Board& GetBoard();
+		const Board& GetCurBoard();
 	private:
-		bool isLegalMove(Move move);
+		bool IsLegalMove(Move move);
 
 		Board startBoard;
 		Board curBoard;
 		std::vector<Move> moveHistory;
-		int maxMoves; //to trace how many redo's are possible
+		int curMoveInd = 0;					//to know what is last move is
+		int maxMoves = 0;					//to trace how many redo's are possible
 	};
 }
