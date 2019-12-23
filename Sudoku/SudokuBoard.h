@@ -12,7 +12,9 @@ namespace Sudoku {
 		ONEL = 9, TWOL, THREEL, FOURL, FIVEL, SIXL, SEVENL, EIGHTL, NINEL
 	};
 
-	inline bool isChangeable(Point p);
+	inline bool IsChangeable(Point p) {
+		return p >= Point::EMPTY && p <= Point::NINE;
+	}
 
 	class Board {
 	public:
@@ -40,6 +42,9 @@ namespace Sudoku {
 
 		//numbers don't conflict?
 		bool IsConsistent() const;
+
+		static constexpr int GetIndex(int row, int col);
+		static constexpr int GetIndex(int sqrrow, int sqrcol, int sqrind);
 
 	private:
 		std::array<Point, 81> points;

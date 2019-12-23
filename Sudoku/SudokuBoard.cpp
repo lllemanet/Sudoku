@@ -8,10 +8,6 @@
 #define OUT
 
 namespace Sudoku {
-	inline bool isChangeable(Point p) {
-		return p > 0 && p < 10;
-	}
-
 	Board::Board() {
 		std::fill_n(points.begin(), 81, Point::EMPTY);
 	}
@@ -143,6 +139,15 @@ namespace Sudoku {
 		return true;
 	}
 
+	constexpr int Board::GetIndex(int row, int col) {
+		return row * 9 + col;
+
+	}
+
+	constexpr int Board::GetIndex(int sqrrow, int sqrcol, int sqrind) {
+		return sqrrow * 27 + sqrcol * 3 + sqrind % 3 + (sqrind / 3) * 9;
+	}
+
 
 	/*Sudoku solver*/
 	inline int GetNextEmptyIndex(const Board& board, int curInd) {
@@ -184,7 +189,7 @@ namespace Sudoku {
 				else {
 					//empty all elements added after curInd
 					for (int i = curInd + 1; i < numOfPoints; i++) {
-						if (isChangeable(resBoard(i)))
+						if (IsChangeable(resBoard(i)))
 							resBoard(i) = Point::EMPTY;
 					}
 				}
