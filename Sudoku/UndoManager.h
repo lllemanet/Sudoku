@@ -1,0 +1,57 @@
+#pragma once
+#include <vector>
+
+/*
+	Act should be such that can be used for doing and undoing things.
+	UndoActManager only contains sequence of acts, it's responsible for their order and doesn't manipulate them directly. 
+	Acts logic is external so this is the user task to apply act returned from UndoActManager.
+	UndoActManager just keep track of possibilities to undo/redo Act.
+*/
+template <typename TAct>
+class UndoActManager {
+public:
+	UndoActManager() {}
+
+	UndoActManager(std::initializer_list<TAct> acts) : acts(acts), curActsInd(acts.size() - 1) {}
+
+	void Do(TAct act) {
+		if (isUndoState) {
+			isUndoState = false;
+			for (int i = curActsInd; i < acts.size(); i++)
+				acts.pop_back();
+			acts.push_back(act);
+		}
+		else {
+			acts.push_back(act);
+		}
+	}
+
+	//undo when there's no prev acts returns default TAct
+	TAct Undo() {
+		if (!isUndoState) {
+			isUndoState = true;
+			curActsInd = acts.size() - 1;
+		}
+
+		if (curActsInd == -1)
+			return TAct{};
+
+		return acts[curActsInd--];
+	}
+
+	//redo if in undostate and there's possibility to redo (element in curActsInd + 1)
+	TAct Redo() {
+		if (!isUndoState || acts.size() == curActsInd + 1)
+			return TAct{};
+
+		return acts[++curActsInd];
+	}
+
+	//bool IsPossibleRedo();
+	//bool IsPossibleUndo();
+
+private:
+	std::vector<TAct> acts;
+	int curActsInd;		//used only in undostate. index points to next undo act
+	bool isUndoState;	//begins after undo while there's redo possibility
+};

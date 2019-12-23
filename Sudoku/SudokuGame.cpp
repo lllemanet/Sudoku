@@ -12,10 +12,22 @@ namespace Sudoku {
 			return false;
 
 		curBoard(move.index) = move.newValue;
-		moveHistory.push_back(move); //temp for test
+		undoManager.Do(move);
+
 		return true;
 	}
 
+	bool Game::Undo() {
+		Move undoMove = undoManager.Undo();				//NTODO TODOhow to check default value if error
+		curBoard(undoMove.index) = undoMove.oldValue;
+		return true;
+	}
+
+	bool Game::Redo() {
+		Move redoMove = undoManager.Redo();
+		curBoard(redoMove.index) = redoMove.newValue;
+		return true;
+	}
 	const Board& Game::GetCurBoard() {
 		return curBoard;
 	}

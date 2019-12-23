@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "SudokuBoard.h"
+#include "UndoManager.h"
 
 namespace Sudoku {
 	struct Move {
@@ -26,8 +27,6 @@ namespace Sudoku {
 
 		Board startBoard;
 		Board curBoard;
-		std::vector<Move> moveHistory;
-		int curMoveInd = 0;					//to know what is last move is
-		int maxMoves = 0;					//to trace how many redo's are possible
+		UndoActManager<Move> undoManager;
 	};
 }

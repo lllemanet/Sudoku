@@ -23,6 +23,10 @@ int main()
 	PrintBoard(game.GetCurBoard());
 	game.MakeMove({ 0, Point::THREE, Point::ONE });
 	PrintBoard(game.GetCurBoard());
+	game.Undo();
+	PrintBoard(game.GetCurBoard());
+	game.Redo();
+	PrintBoard(game.GetCurBoard());
 	//SudokuBoard sb1{};
 }
 
@@ -33,4 +37,5 @@ void PrintBoard(Board board) {
 		}
 		std::cout << "\n";
 	}
+	std::cout << "\n";
 }
