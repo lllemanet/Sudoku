@@ -67,7 +67,10 @@ void GameTerminal::Start() {
 void GameTerminal::PrintBoard(const Board& board) {
 	for (int r = 0; r < 9; r++) {
 		for (int c = 0; c < 9; c++) {
-			std::cout << "\t" << board(r, c) + 1;	//not zero-based
+			std::string value = IsChangeable(board(r, c)) ? 
+				to<std::string>(board(r, c) + 1) : 
+				to<std::string>((board(r, c) % 9) + 1) + "L";
+			std::cout << "\t" << value;	//not zero-based
 		}
 		std::cout << "\n";
 	}
