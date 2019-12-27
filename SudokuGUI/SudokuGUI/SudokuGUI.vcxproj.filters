@@ -51,9 +51,6 @@
     <ClInclude Include="ResizeEventFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pointbutton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="sudokugui.ui">
@@ -70,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SudokuMainWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="pointbutton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

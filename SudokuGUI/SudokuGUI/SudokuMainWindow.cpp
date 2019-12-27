@@ -7,7 +7,8 @@ SudokuMainWindow::SudokuMainWindow(QWidget *parent)
 {
 	ui.setupUi(this);
 	for (int i = 0; i < buttons.size(); i++) {
-		buttons[i] = new PointButton(ui.sqrButtons[i]);
+		buttons[i] = new PointButton(ui.sqrButtons[i], i, game.GetCurBoard()(i));
+		QObject::connect(buttons[i], SIGNAL(clickedInd(int)), this, SLOT(sqrInput(int)));
 	}
 }
 
@@ -18,4 +19,10 @@ void SudokuMainWindow::LoadGame(const Sudoku::Game& game) {
 	for (int i = 0; i < Sudoku::numOfPoints; i++) {
 		buttons[i]->SetPoint(board(i));
 	}
+}
+
+void SudokuMainWindow::sqrInput(int a) {
+	QMessageBox *msg = new QMessageBox();
+	msg->setText("Hi, I am msg" + QString::number(a));
+	msg->show();
 }

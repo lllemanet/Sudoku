@@ -2,15 +2,23 @@
 #include "pointbutton.h"
 #include "SudokuBoard.h"
 
-PointButton::PointButton(QPushButton *button) : PointButton(Sudoku::Point{}, button) {}
-
-PointButton::PointButton(Sudoku::Point point, QPushButton *button) : button{ button }, point{ point } {
+PointButton::PointButton(QPushButton *button, int index, Sudoku::Point point)
+							: button{ button } , index{ index }, point{ point } {
+	QObject::connect(button, SIGNAL(clicked()), this, SLOT(clicked()));
 	Update();
+}
+
+void PointButton::SetIndex(int index) {
+	this->index = index;
 }
 
 void PointButton::SetPoint(Sudoku::Point point) {
 	this->point = point;
 	Update();
+}
+
+void PointButton::clicked() {
+	clickedInd(index);
 }
 
 void PointButton::Update() {

@@ -15,6 +15,10 @@ public:
 	SudokuMainWindow(QWidget *parent = Q_NULLPTR);
 
 	void LoadGame(const Sudoku::Game& game);
+
+public slots:
+	void sqrInput(int);
+
 private:
 	Ui::MySudokuGUIClass ui;
 	Sudoku::Game game;

@@ -104,7 +104,7 @@
     <ClCompile Include="SudokuMainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pointbutton.h" />
+    <QtMoc Include="pointbutton.h" />
     <ClInclude Include="ResizeEventFilter.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ui_mysudokugui.h" />
