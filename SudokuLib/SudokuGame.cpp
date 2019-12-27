@@ -7,6 +7,10 @@ namespace Sudoku {
 
 	Game::Game(const Board& startBoard) : startBoard(startBoard), curBoard(startBoard) {}
 
+	Game Game::operator=(const Game& game) {
+		return Game{ game };
+	}
+
 	bool Game::MakeMove(Move move) {
 		if (!IsLegalMove(move))
 			return false;

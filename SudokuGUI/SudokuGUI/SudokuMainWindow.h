@@ -1,8 +1,9 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_sudokugui.h"
+//#include "ui_sudokugui.h"
 #include "ui_mysudokugui.h"
+#include "SudokuGame.h"
 
 class SudokuMainWindow : public QMainWindow
 {
@@ -11,6 +12,8 @@ class SudokuMainWindow : public QMainWindow
 public:
 	SudokuMainWindow(QWidget *parent = Q_NULLPTR);
 
+	void LoadGame(const Sudoku::Game& game);
 private:
 	Ui::MySudokuGUIClass ui;
+	Sudoku::Game game;
 };

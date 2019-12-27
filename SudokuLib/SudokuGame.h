@@ -16,6 +16,8 @@ namespace Sudoku {
 		Game(const Game& game) = default;
 		Game(Game&& game) = default;
 
+		Game operator=(const Game& game);
+
 		bool MakeMove(Move move);
 		bool Undo();
 		bool Redo();

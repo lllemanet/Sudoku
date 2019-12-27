@@ -65,6 +65,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>C:\Users\rusik\Desktop\Code\Projs\sudoku_solver\Sudoku\SudokuLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,6 +115,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SudokuGUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SudokuLib\SudokuLib.vcxproj">
+      <Project>{a500356c-5555-427f-b0e9-cde5f721a95b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -15,7 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTerminal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SudokuBoard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SudokuGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UndoManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -23,7 +38,19 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameTerminal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Sudoku.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SudokuBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SudokuGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UndoActManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
