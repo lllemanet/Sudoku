@@ -1,8 +1,10 @@
 #pragma once
 
+#include <array>
 #include <QtWidgets/QMainWindow>
 //#include "ui_sudokugui.h"
 #include "ui_mysudokugui.h"
+#include "pointbutton.h"
 #include "SudokuGame.h"
 
 class SudokuMainWindow : public QMainWindow
@@ -16,4 +18,5 @@ public:
 private:
 	Ui::MySudokuGUIClass ui;
 	Sudoku::Game game;
+	std::array<PointButton*, Sudoku::numOfPoints> buttons;
 };

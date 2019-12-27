@@ -8,7 +8,10 @@ namespace Sudoku {
 	Game::Game(const Board& startBoard) : startBoard(startBoard), curBoard(startBoard) {}
 
 	Game Game::operator=(const Game& game) {
-		return Game{ game };
+		this->startBoard = game.startBoard;
+		this->curBoard = game.curBoard;
+		this->undoManager = game.undoManager;
+		return *this;
 	}
 
 	bool Game::MakeMove(Move move) {

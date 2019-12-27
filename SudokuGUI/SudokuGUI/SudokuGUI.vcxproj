@@ -85,6 +85,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>C:\Users\rusik\Desktop\Code\Projs\sudoku_solver\Sudoku\SudokuLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -94,6 +95,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pointButton.cpp" />
     <ClCompile Include="ResizeEventFilter.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -102,6 +104,7 @@
     <ClCompile Include="SudokuMainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pointbutton.h" />
     <ClInclude Include="ResizeEventFilter.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ui_mysudokugui.h" />
