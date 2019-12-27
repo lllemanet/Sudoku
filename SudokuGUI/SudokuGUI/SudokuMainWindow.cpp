@@ -22,29 +22,47 @@ void SudokuMainWindow::LoadGame(const Sudoku::Game& game) {
 	}
 }
 
+//if PointButton was pressed
 void SudokuMainWindow::sqrInput(int a) {
 	if (waitInButtonIndex != -1) {
-		return;
+		return;	//don't respond to any other point button pressed until handled this one
 	}
-	buttons[a]->SetWaitState(true, true);
-	waitInButtonIndex = a;
+
+	if (Sudoku::IsChangeable(game.GetCurBoard()(a))) {
+		buttons[a]->SetWaitState(true, true);
+		waitInButtonIndex = a;
+	}
+	else {
+		Notify("You cannot change locked squares");
+	}
+
+	
 }
 
+//handle key pressed (MakeMove). TODO extract to separate method
 void SudokuMainWindow::keyPressEvent(QKeyEvent *event) {
 	if (waitInButtonIndex != -1 && event->type() == QEvent::KeyPress
 			&& (event->key() >= Qt::Key_0 || event->key() <= Qt::Key_9)) {
-		
-
-
-		buttons[waitInButtonIndex]->SetWaitState(false);
-
-		//TODOW check for locked indexes and consistency
 		Sudoku::Point newPoint = static_cast<Sudoku::Point>(event->key() - Qt::Key_0 - 1);
-		//if (game.MakeMove(Sudoku::Move{ waitInButtonIndex, newPoint, buttons[waitInButtonIndex]->point}))
-		buttons[waitInButtonIndex]->SetPoint(newPoint, true);
+		Sudoku::Point oldPoint = buttons[waitInButtonIndex]->GetPoint();
+		Sudoku::Move move = Sudoku::Move{ waitInButtonIndex, newPoint,  oldPoint};
+
+		if (game.MakeMove(move)) {
+			buttons[waitInButtonIndex]->SetWaitState(false);
+			buttons[waitInButtonIndex]->SetPoint(newPoint, true);
+			Notify("Point was changed successfully");
+		}
+		else {
+			buttons[waitInButtonIndex]->SetWaitState(false, true);
+			Notify("Cannot make such move");
+		}
 
 		waitInButtonIndex = -1;
 	}
 
 	QMainWindow::keyPressEvent(event);
+}
+
+void SudokuMainWindow::Notify(QString msg) {
+	ui.statusBar->showMessage(msg);
 }

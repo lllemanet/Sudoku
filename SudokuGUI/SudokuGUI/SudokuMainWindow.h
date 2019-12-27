@@ -24,7 +24,9 @@ protected:
 	void keyPressEvent(QKeyEvent *event) override;
 
 private:
-	//int a;
+	void Notify(QString msg);
+
+	
 	Ui::MySudokuGUIClass ui;
 	Sudoku::Game game;
 	std::array<PointButton*, Sudoku::numOfPoints> buttons;
