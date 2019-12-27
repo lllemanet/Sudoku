@@ -12,9 +12,20 @@ void PointButton::SetIndex(int index) {
 	this->index = index;
 }
 
-void PointButton::SetPoint(Sudoku::Point point) {
+void PointButton::SetWaitState(bool waitState, bool update) {
+	this->waitState = waitState;
+	if (update)
+		Update();
+}
+
+void PointButton::SetPoint(Sudoku::Point point, bool update) {
 	this->point = point;
-	Update();
+	if (update)
+		Update();
+}
+
+Sudoku::Point PointButton::GetPoint() {
+	return point;
 }
 
 void PointButton::clicked() {
@@ -23,14 +34,17 @@ void PointButton::clicked() {
 
 void PointButton::Update() {
 	QString styleStr = "font-size: 30px;";
-	if (!Sudoku::IsChangeable(point)) {
+	if (waitState) {
+		styleStr += "background-color: black;";
+	}
+	else if (!Sudoku::IsChangeable(point)) {
 		styleStr += "background-color: gray;";
 	}
 	else {
 		styleStr += "background-color: white;";
 	}
-
 	button->setStyleSheet(styleStr);
+
 	if (point != Sudoku::Point::EMPTY) {
 		button->setText(QString::number((point % 9) + 1));
 	}

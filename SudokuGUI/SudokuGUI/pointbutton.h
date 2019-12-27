@@ -8,7 +8,10 @@ class PointButton : public QObject {
 public:
 	PointButton(QPushButton *button, int index = 0, Sudoku::Point point = Sudoku::Point{});
 
-	void SetPoint(Sudoku::Point p);
+	void SetPoint(Sudoku::Point point, bool update = false);
+	Sudoku::Point GetPoint();
+
+	void SetWaitState(bool waitState, bool update = false);
 	void SetIndex(int index);
 
 public slots:
@@ -20,6 +23,7 @@ private:
 	void Update();
 
 	int index;
+	bool waitState = false;
 	Sudoku::Point point;
 	QPushButton *button;
 };
