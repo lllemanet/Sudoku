@@ -48,7 +48,10 @@ namespace Sudoku {
 		}
 
 		static constexpr int GetIndex(int sqrrow, int sqrcol, int sqrind) {
-			return sqrrow * 27 + sqrcol * 3 + sqrind % 3 + (sqrind / 3) * 9;
+			return sqrrow * 27				//bigrow contains 27 elements
+				+ sqrcol * 3			//example for sqrrow = 0, sqrcol = 1, sqrind = 0: 0 1 2 ->3 4 5 6 7 8
+				+ sqrind % 3
+				+ (sqrind / 3) * 9;		//to pass one small row inside bigrow we need to add 9
 		}
 
 	private:

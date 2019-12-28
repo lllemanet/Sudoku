@@ -45,7 +45,7 @@ void SudokuMainWindow::sqrInput(int a) {
 //handle key pressed (MakeMove). TODO extract to separate method
 void SudokuMainWindow::keyPressEvent(QKeyEvent *event) {
 	if (waitInButtonIndex != -1 && event->type() == QEvent::KeyPress
-			&& (event->key() >= Qt::Key_0 || event->key() <= Qt::Key_9)) {
+			&& (event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9)) {
 		Sudoku::Point newPoint = static_cast<Sudoku::Point>(event->key() - Qt::Key_0 - 1);
 		Sudoku::Point oldPoint = buttons[waitInButtonIndex]->GetPoint();
 		Sudoku::Move move = Sudoku::Move{ waitInButtonIndex, newPoint,  oldPoint};
