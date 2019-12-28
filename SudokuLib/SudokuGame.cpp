@@ -56,6 +56,14 @@ namespace Sudoku {
 		return true;
 	}
 
+	bool Game::CanUndo() {
+		return undoManager.CanUndo();
+	}
+
+	bool Game::CanRedo() {
+		return undoManager.CanRedo();
+	}
+
 	bool Game::IsWon() {
 		for (int i = 0; i < numOfPoints; i++) {
 			if (curBoard(i) == Point::EMPTY)

@@ -2,24 +2,29 @@
 #include "SudokuMainWindow.h"
 #include "SudokuBoard.h"
 
-SudokuMainWindow::SudokuMainWindow(QWidget *parent)
-	: QMainWindow(parent), game{ Sudoku::Board{} }
+SudokuMainWindow::SudokuMainWindow(Sudoku::Game game, QWidget *parent) 
+									: game{ game }, QMainWindow(parent)
 {
 	ui.setupUi(this);
 
+	//init PointButton array
 	for (int i = 0; i < buttons.size(); i++) {
 		buttons[i] = new PointButton(ui.sqrButtons[i], i, game.GetCurBoard()(i));
 		QObject::connect(buttons[i], SIGNAL(clickedInd(int)), this, SLOT(sqrInput(int)));
 	}
+
+	//connect redo/undo actions with slots
+	QObject::connect(ui.undoAction, SIGNAL(triggered()), this, SLOT(undo()));
+	QObject::connect(ui.redoAction, SIGNAL(triggered()), this, SLOT(redo()));
+
+	UpdateUndoAvailability();
 }
 
 void SudokuMainWindow::LoadGame(const Sudoku::Game& game) {
 	this->game = game;
-	Sudoku::Board board = this->game.GetCurBoard();
 
-	for (int i = 0; i < Sudoku::numOfPoints; i++) {
-		buttons[i]->SetPoint(board(i), true);
-	}
+	UpdateBoard();
+	UpdateUndoAvailability();
 }
 
 //if PointButton was pressed
@@ -34,9 +39,7 @@ void SudokuMainWindow::sqrInput(int a) {
 	}
 	else {
 		Notify("You cannot change locked squares");
-	}
-
-	
+	}	
 }
 
 //handle key pressed (MakeMove). TODO extract to separate method
@@ -49,7 +52,7 @@ void SudokuMainWindow::keyPressEvent(QKeyEvent *event) {
 
 		if (game.MakeMove(move)) {
 			buttons[waitInButtonIndex]->SetWaitState(false);
-			buttons[waitInButtonIndex]->SetPoint(newPoint, true);
+			buttons[waitInButtonIndex]->SetPoint(newPoint, true); //UpdateBoard();
 			Notify("Point was changed successfully");
 		}
 		else {
@@ -59,10 +62,45 @@ void SudokuMainWindow::keyPressEvent(QKeyEvent *event) {
 
 		waitInButtonIndex = -1;
 	}
+	UpdateUndoAvailability();
 
 	QMainWindow::keyPressEvent(event);
 }
 
 void SudokuMainWindow::Notify(QString msg) {
 	ui.statusBar->showMessage(msg);
+}
+
+void SudokuMainWindow::undo() {
+	if (game.Undo()) {
+		Notify("Successful undo");
+		UpdateBoard();
+	}
+	else {
+		Notify("Cannot undo");
+	}
+	UpdateUndoAvailability();
+}
+
+void SudokuMainWindow::redo() {
+	if (game.Redo()) {
+		UpdateBoard();
+		Notify("Successful undo");
+	}
+	else {
+		Notify("Cannot undo");
+	}
+	UpdateUndoAvailability();
+}
+
+void SudokuMainWindow::UpdateBoard() {
+	Sudoku::Board board = this->game.GetCurBoard();
+	for (int i = 0; i < Sudoku::numOfPoints; i++) {
+		buttons[i]->SetPoint(board(i), true);
+	}
+}
+
+void SudokuMainWindow::UpdateUndoAvailability() {
+	ui.undoAction->setEnabled(game.CanUndo() ? true : false);
+	ui.redoAction->setEnabled(game.CanRedo() ? true : false);
 }

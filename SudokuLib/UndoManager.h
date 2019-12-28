@@ -19,8 +19,11 @@ public:
 	void Do(TAct act) {
 		if (isUndoState) {
 			isUndoState = false;
-			for (int i = curActsInd; i < acts.size(); i++)
+			int numOfDiscardedActs = acts.size() - (curActsInd + 1);
+			for (int i = 0; i < numOfDiscardedActs; i++)
 				acts.pop_back();
+			
+			
 			acts.push_back(act);
 		}
 		else {
@@ -43,16 +46,22 @@ public:
 
 	//redo if in undostate and there's possibility to redo (element in curActsInd + 1)
 	TAct Redo() {
-		if (!isUndoState || acts.size() == curActsInd + 1)
+		if (!isUndoState || curActsInd + 1 >= acts.size())
 			throw invalid_operation{};
 
 		return acts[++curActsInd];
 	}
 
-	//bool IsPossibleRedo();
-	//bool IsPossibleUndo();
+	bool CanRedo() {
+		return isUndoState && (curActsInd + 1 < acts.size());
+	}
+
+	bool CanUndo() {
+		return (isUndoState && curActsInd != -1) ||
+			(!isUndoState && acts.size() != 0);
+	}
 private:
 	std::vector<TAct> acts;
 	int curActsInd;		//used only in undostate. index points to next undo act
-	bool isUndoState;	//begins after undo while there's redo possibility
+	bool isUndoState = false;	//begins after undo while there's redo possibility
 };

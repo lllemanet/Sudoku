@@ -21,6 +21,8 @@ namespace Sudoku {
 		bool MakeMove(Move move);
 		bool Undo();
 		bool Redo();
+		bool CanUndo();
+		bool CanRedo();
 		bool IsWon();
 
 		const Board& GetCurBoard();
